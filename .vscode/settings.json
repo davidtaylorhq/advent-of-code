@@ -1,0 +1,6 @@
+{
+  "triggerTaskOnSave.restart": true,
+  "triggerTaskOnSave.tasks": {
+    "Run current file": ["**/*.rb"]
+  }
+}
