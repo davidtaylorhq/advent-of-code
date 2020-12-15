@@ -1,6 +1,6 @@
 starting_numbers = DATA.readline.split(",").map(&:to_i)
 
-last_spoken_at = {}
+last_spoken_at = []
 
 starting_numbers.each_with_index do |num, i|
   last_spoken_at[num] = i + 1
