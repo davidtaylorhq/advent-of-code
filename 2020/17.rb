@@ -5,30 +5,34 @@ raw_lines = DATA.readlines
 class Space
   def initialize(dimensions = 3)
     @dimensions = dimensions
-    @space = Set.new
+    @active = Set.new
+    @neighbours = Hash.new(0)
   end
 
   def initialize_copy(other_obj)
-    @space = @space.dup
+    @active = @active.dup
+    @neighbours = @neighbours.dup
   end
 
   def active?(coords)
-    !!@space.include?(coords)
+    @active.include?(coords)
   end
 
   def active!(coords, active = true)
-    if active
-      @space.add coords
-    else
-      @space.delete coords
-    end
+    change =
+      if active
+        1 if @active.add?(coords)
+      else
+        -1 if @active.delete?(coords)
+      end
+    neighbours(coords).each { |c| @neighbours[c] += change } if change
   end
 
   def active_coords
-    @space
+    @active
   end
 
-  def neighbour_coordinates_for(coord)
+  def neighbours(coord)
     [-1, 0, 1]
       .repeated_permutation(@dimensions)
       .filter { |perm| !perm.all? { |v| v == 0 } }
@@ -36,13 +40,11 @@ class Space
   end
 
   def interesting_coords
-    interesting = active_coords.dup
-    active_coords.each { |c| interesting.merge(neighbour_coordinates_for(c)) }
-    interesting
+    active_coords.dup.merge(@neighbours.keys)
   end
 
   def active_neighbours(coord)
-    neighbour_coordinates_for(coord).filter { |coord| active?(coord) }.count
+    @neighbours[coord]
   end
 end
 
@@ -55,7 +57,6 @@ end
     end
   end
 
-  cycle = 0
   (1..6).each do |cycle|
     new_space = space.dup
     space.interesting_coords.each do |coord|
