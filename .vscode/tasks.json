@@ -3,7 +3,13 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "Run current file",
+      "label": "Run golang",
+      "command": "cd ${fileDirname}/.. && go run ${file}",
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Run ruby",
       "command": "ruby ${file}",
       "problemMatcher": []
     }

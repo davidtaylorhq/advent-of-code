@@ -1,6 +1,7 @@
 {
   "triggerTaskOnSave.restart": true,
   "triggerTaskOnSave.tasks": {
-    "Run current file": ["**/*.rb"]
-  }
+    "Run ruby": ["**/*.rb"],
+    "Run golang": ["**/*.go"]
+  },
 }
